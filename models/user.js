@@ -13,14 +13,7 @@ module.exports = (sequelize,DataTypes)=>{
             type:DataTypes.STRING(100),
             allowNull:true
         },
-        provider:{
-            type:DataTypes.STRING(10),
-            allowNull:false,
-            defaultValue:'local'
-        },
-        snsId:{
-            type:DataTypes.STRING(30),
-            allowNull:true,
+       
         },
 
     },{
