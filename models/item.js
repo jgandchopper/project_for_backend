@@ -9,10 +9,6 @@ module.exports = (sequelize,DataTypes)=>{
             type:DataTypes.STRING(15),
             allowNull:false
         },
-       
-       
-        
-
     },{
         timestamps:true,
         paranoid:true
