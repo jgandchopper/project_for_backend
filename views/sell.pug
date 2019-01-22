@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    .timeline
+        form#sell-form(action='/auth/join' method='post')
+            .input-group
+                label(for='sell-name') 판매물품
+                input#sell-name(type='text' name='product_name')
+            .input-group
+                label(for='sell-cost') 가격
+                input#sell-cost(type='text' name='cost')
+            if sellError
+                .error-message= sellError
+            button#sell-btn.btn(type='submit') 물품등록
