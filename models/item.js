@@ -1,16 +1,31 @@
 module.exports = (sequelize,DataTypes)=>{
-    return sequelize.define('item',{
-        cost:{
-            type:DataTypes.INT,
+    return sequelize.define('Item',{
+        seller_id:{
+            type:DataTypes.STRING,
             allowNull:false,
+            primaryKey:true
+        },
+        item_name:{
+            type:DataTypes.STRING,
+            allowNull:false
             
         },
-        name:{
-            type:DataTypes.STRING(15),
-            allowNull:false
+        cost:{
+            type:DataTypes.INT,
+            allowNull:true,
+            
         },
-    },{
+        buyer_id:{
+            type:DataTypes.STRING,
+            allowNull:true
+        },
+        ended_time:{
+            type:DataTypes.DATE,
+            allowNull:false
+        }
+    },
+    {
         timestamps:true,
-        paranoid:true
+        paranoid:true,
     })
 };
