@@ -55,4 +55,9 @@ router.get('/logout',isLoggedIn,(req,res)=>{
     res.redirect('/');
 })
 
+router.post('/sell',isLoggedIn,(req,res)=>{
+    var selling = req.body;
+    res.redirect('/');
+})
 module.exports = router;
+    

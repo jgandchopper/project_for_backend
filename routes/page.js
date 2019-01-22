@@ -2,9 +2,6 @@ const express = require('express');
 const{isLoggedIn,isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
 
-router.get('/profile',isLoggedIn,(req,res)=>{
-    res.render('profile', {title: '내 정보',user:req.user});
-});
 
 router.get('/join',isNotLoggedIn,(req,res)=>{
     res.render('join',{
@@ -22,4 +19,11 @@ router.get('/',(req,res,next)=>{
         loginError:req.flash('loginError')
     });
 });
+router.get('/sell',(req,res)=>{
+    res.render('sell',{
+        title:'autction 판매창',
+        user:req.user,
+        sellError:req.flash('sellError')
+    })
+})
 module.exports = router;

@@ -10,9 +10,11 @@ const sequelize= new Sequelize(
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 db.User = require('./user')(sequelize,Sequelize);
-db.Post = require('./post')(sequelize,Sequelize);
-db.User.hasMany(db.Post);
+//db.Post = require('./post')(sequelize,Sequelize);
 db.Item = require('./item')(sequelize,Sequelize);
+
+db.User.hasMany(db.Item);
+db.Item.belongsTo(db.User);
 
 
 
