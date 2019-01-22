@@ -28,7 +28,7 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 .input-group label { width: 25%; display: inline-block; }
 .input-group input { width: 70%; }
 .half { float: left; width: 50%; margin: 10px 0; }
-#join { float: right; }
+#join { float: left; }
 
 .profile-wrap {
   width: 100%;
@@ -108,3 +108,4 @@ input[type='text'], input[type='email'], input[type='password'], textarea {
 /* #hashtag-form { text-align: right; } */
 #sell-form {padding:10px; text-align: right;}
 footer { text-align: center; }
+  
