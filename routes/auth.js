@@ -2,14 +2,14 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const {isLoggedIn,isNotLoggedIn} = require('./middlewares');
-const {User} = require('../models');
+const {User, Item} = require('../models');
 const router = express.Router();
 
-
+const moment = require('moment');
 
 router.post('/join',isNotLoggedIn,async(req,res,next)=>{
     const {email,nick,password} = req.body;
-    console.log(req.body);
+    //console.log(req.body);
     try{
         const exUser = await User.find({where:{email}});
         if(exUser){
@@ -54,10 +54,37 @@ router.get('/logout',isLoggedIn,(req,res)=>{
     req.session.destroy();
     res.redirect('/');
 })
-
-router.post('/sell',isLoggedIn,(req,res)=>{
-    var selling = req.body;
+router.get('/logout',isNotLoggedIn,(req,res)=>{
     res.redirect('/');
+})
+
+// router.post('/sell',isLoggedIn,(req,res)=>{
+//     var selling = req.body;
+//     res.redirect('/');
+// })
+
+router.post('/sell',isLoggedIn,async(req,res,next)=>{
+    const {product_name,seller_id,cost,ended_time} = req.body;
+    try{
+        const exItem = await Item.find({where:{product_name}})
+        if(exItem){
+            req.flash('이미 등록된 상품입니다');
+            return res.redirect('/sell');
+        }
+        const timeset = 
+        await Item.create({
+            product_name,
+            seller_id,
+            cost,
+            ended_time:timeset
+        });
+        console.log(Item);
+        return res.redirect('/');
+    }
+    catch(error){   
+        console.error(error);
+        return next(error);
+    }
 })
 module.exports = router;
     
