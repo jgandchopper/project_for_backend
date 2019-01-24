@@ -12,6 +12,7 @@ const {sequelize} = require('./models');
 const passportConfig = require('./passport');
 const app =express();
 sequelize.sync();
+require('date-utils');
 passportConfig(passport);
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','pug');

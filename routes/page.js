@@ -26,4 +26,5 @@ router.get('/sell',(req,res)=>{
         sellError:req.flash('sellError')
     })
 })
+
 module.exports = router;

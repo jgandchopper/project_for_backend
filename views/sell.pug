@@ -2,13 +2,19 @@ extends layout
 
 block content
     .timeline
-        form#sell-form(action='/auth/join' method='post')
+        form#sell-form(action='/auth/sell' method='post')
             .input-group
-                label(for='sell-name') 판매물품
+                label(for='sell-product_name') 판매물품
                 input#sell-name(type='text' name='product_name')
+            .input-group
+                label(for='sell-seller_id') 판매자 아이디
+                input#sell-cost(type='text' name='seller_id')
             .input-group
                 label(for='sell-cost') 가격
                 input#sell-cost(type='text' name='cost')
+            .input-group
+                label(for='sell-ended_time') 종료시간
+                input#sell-name(type='text' name='ended_time')
             if sellError
                 .error-message= sellError
             button#sell-btn.btn(type='submit') 물품등록
