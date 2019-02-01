@@ -1,6 +1,8 @@
 const express = require('express');
 const{isLoggedIn,isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
+const {Item} = require('../models')
+const mysql = require('mysql')
 
 
 router.get('/join',isNotLoggedIn,(req,res)=>{
@@ -26,4 +28,20 @@ router.get('/sell',(req,res)=>{
         sellError:req.flash('sellError')
     })
 })
+router.get('/selled_item',isLoggedIn, (req, res)=>{
+    //async <<<<<<<< (auth check)
+    const dataValues_list = [];
+    Item.findAll().then(function(result){
+        for(var data_index in result){
+            dataValues_list.push(result[data_index].dataValues);
+        }
+        res.render('selled_item',{
+        data:dataValues_list,
+        data_length:dataValues_list.length    
+    });
+    });
+    
+    
+});
+console.log(1);
 module.exports = router;

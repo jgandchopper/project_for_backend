@@ -12,6 +12,7 @@ const {sequelize} = require('./models');
 const passportConfig = require('./passport');
 const app =express();
 sequelize.sync();
+require('date-utils');
 passportConfig(passport);
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','pug');
@@ -44,7 +45,7 @@ app.use((req,res,next)=>{
 });
 
 app.use((err,req,res)=>{
-    res.locals.message =err.message;
+    res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err: {};
     res.status(err.status||500);
     res.render('error');

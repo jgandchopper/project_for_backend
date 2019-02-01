@@ -2,26 +2,29 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const {isLoggedIn,isNotLoggedIn} = require('./middlewares');
-const {User} = require('../models');
-const {Item} = require('../models');
+const {User, Item} = require('../models');
 const router = express.Router();
 
+const moment = require('moment');
+
 router.post('/join',isNotLoggedIn,async(req,res,next)=>{
-    console.log(1111);
     const {email,nick,password} = req.body;
-    console.log(req.body);
+    //console.log(req.body);
     try{
         const exUser = await User.find({where:{email}});
+        console.log(exUser);
         if(exUser){
             req.flash('joinError','이미 가입된 이메일입니다.');
             return res.redirect('/join');
         }
-        const hash = await bcrypt.hash(password,12);//모르겠음
+        console.log('11');
+        const hash = await bcrypt.hash(password,12);
         await User.create({
             email,
             nick,
             password:hash,
         });
+        console.log('22');
         return res.redirect('/');
     } catch(error){
         console.error(error);
@@ -30,7 +33,6 @@ router.post('/join',isNotLoggedIn,async(req,res,next)=>{
 });
 
 router.post('/login',isNotLoggedIn,(req,res,next)=>{
-    console.log(2222);
     passport.authenticate('local',(authError,user,info)=>{
         if(authError){
             console.error(authError);
@@ -55,30 +57,31 @@ router.get('/logout',isLoggedIn,(req,res)=>{
     req.session.destroy();
     res.redirect('/');
 })
+router.get('/logout',isNotLoggedIn,(req,res)=>{
+    res.redirect('/');
+})
 
-router.post('/sell',isLoggedIn,(req,res)=>{
-    let moment = require('moment');
-    var {product_name, price} = req.body;
+router.post('/sell',isLoggedIn,async(req,res,next)=>{
+    const {product_name,seller_id,cost,ended_time} = req.body;
+    console.log(ended_time);
     try{
-        const exItem = await Item.find({where:{product_name}});
+        const exItem = await Item.find({where:{product_name}})
         if(exItem){
-            req.flash('이미 등록된 상품입니다.');
+            req.flash('이미 등록된 상품입니다');
             return res.redirect('/sell');
         }
         await Item.create({
             product_name,
-            'hpyho33@naver.com',//test
-            price,
-            'test',//test
-            moment();
-        })
+            seller_id,
+            cost,
+            ended_time
+        });
+        return res.redirect('/selled_item');
     }
-    
-    console.log(3333);
-    res.redirect('/selled_item');//home화면에 다른 걸 추가할 수 있어서 다른 페이지로 이동
-})
-router.post('/selled_item', isLoggedIn, function(req, res){
-    //contact
+    catch(error){   
+        console.error(error);
+        return next(error);
+    }
 })
 module.exports = router;
     
