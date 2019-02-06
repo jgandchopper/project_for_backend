@@ -17,14 +17,14 @@ router.post('/join',isNotLoggedIn,async(req,res,next)=>{
             req.flash('joinError','이미 가입된 이메일입니다.');
             return res.redirect('/join');
         }
-        console.log('11');
+        
         const hash = await bcrypt.hash(password,12);
         await User.create({
             email,
             nick,
             password:hash,
         });
-        console.log('22');
+        //console.log('22');
         return res.redirect('/');
     } catch(error){
         console.error(error);
@@ -62,17 +62,24 @@ router.get('/logout',isNotLoggedIn,(req,res)=>{
 })
 
 router.post('/sell',isLoggedIn,async(req,res,next)=>{
-    const {product_name,seller_id,cost,ended_time} = req.body;
-    console.log(ended_time);
+    console.log('바디:',req.user)
+    const {product_name,cost,ended_time} = req.body;
+    console.log('유저',User)
+    const userId = req.user.id
+    console.log('이메일',User.email)
+    console.log('유저아이디',userId)
+    const seller_id = req.user.nick
     try{
         const exItem = await Item.find({where:{product_name}})
         if(exItem){
             req.flash('이미 등록된 상품입니다');
             return res.redirect('/sell');
         }
+        // Item.getUser(req.user.email)
         await Item.create({
             product_name,
             seller_id,
+            userId,
             cost,
             ended_time
         });

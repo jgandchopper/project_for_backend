@@ -5,7 +5,10 @@ module.exports = (sequelize,DataTypes)=>{
             type:DataTypes.STRING(20),
             allowNull:false
         },
-        
+        seller_id:{
+            type:DataTypes.STRING(20),
+            allowNull:true
+        },
         cost:{
             type:DataTypes.INTEGER,
             allowNull:true,  
