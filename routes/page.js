@@ -1,7 +1,7 @@
 const express = require('express');
 const{isLoggedIn,isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
-const {Item} = require('../models')
+const {User,Item} = require('../models')
 const mysql = require('mysql')
 
 
@@ -31,17 +31,20 @@ router.get('/sell',(req,res)=>{
 router.get('/selled_item',isLoggedIn, (req, res)=>{
     //async <<<<<<<< (auth check)
     const dataValues_list = [];
+    //console.log('유저 목록',User.findAll());
+    //console.log('아이템 목록',Item.findAll());
     Item.findAll().then(function(result){
         for(var data_index in result){
             dataValues_list.push(result[data_index].dataValues);
         }
+    
         res.render('selled_item',{
-        data:dataValues_list,
-        data_length:dataValues_list.length    
-    });
+            data:dataValues_list,
+            data_length:dataValues_list.length,
+            user:req.user
+        });
     });
     
     
 });
-console.log(1);
 module.exports = router;

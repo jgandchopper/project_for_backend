@@ -1,14 +1,11 @@
+
 module.exports = (sequelize,DataTypes)=>{
-    return sequelize.define('item1',{
+    return sequelize.define('item',{
         product_name:{
             type:DataTypes.STRING(20),
             allowNull:false
         },
-        seller_id:{
-            type:DataTypes.STRING(40),
-            allowNull:false,
-            unique:true
-        },
+        
         cost:{
             type:DataTypes.INTEGER,
             allowNull:true,  

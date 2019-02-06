@@ -14,7 +14,7 @@ block content
             -for(i=0;i<data_length;i++)
                 tr(onClick = " location.href='http://localhost:8001/'" onmouseover="this.style.backgroundColor = 'yellow';" onmouseout="this.style.backgroundColor='white'")
                     th(scope='row')= data[i].product_name
-                    td= data[i].seller_id
+                    td= data[i].email
                     td= data[i].cost
                     td= data[i].buyer_id
                     td= data[i].ended_time

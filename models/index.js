@@ -15,6 +15,7 @@ db.Item = require('./item')(sequelize,Sequelize);
 
 db.User.hasMany(db.Item);
 db.Item.belongsTo(db.User);
+//db.Item.userId = db.User.email
 
 
 
