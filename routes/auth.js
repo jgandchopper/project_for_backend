@@ -75,6 +75,7 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
             product_name,
             seller_id,
             cost,
+            userId,
             ended_time
         });
         return res.redirect('/selled_item');
