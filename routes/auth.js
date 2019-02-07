@@ -79,8 +79,8 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
         await Item.create({
             product_name,
             seller_id,
-            userId,
             cost,
+            userId,
             ended_time
         });
         return res.redirect('/selled_item');
