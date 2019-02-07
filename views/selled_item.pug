@@ -7,12 +7,13 @@ block content
             tr
                 th(scope='cols') 상품명
                 th(scope='cols') 판매자
-                th(scope='cols') 가격
+                th(scope='cols') 시작가격
                 th(scope='cols') 입찰자
                 th(scope='cols') 마감시간
         tbody(class="row2")
             -for(i=0;i<data_length;i++)
-                tr(onClick = " location.href='http://localhost:8001/'" onmouseover="this.style.backgroundColor = 'yellow';" onmouseout="this.style.backgroundColor='white'")
+                -var link = `\'http://localhost:8001/selled_item/${data[i].product_name}\'`;
+                tr(onClick = " location.href="+link  onmouseover="this.style.backgroundColor = 'yellow';" onmouseout="this.style.backgroundColor='white'")
                     th(scope='row')= data[i].product_name
                     td= data[i].seller_id
                     td= data[i].cost

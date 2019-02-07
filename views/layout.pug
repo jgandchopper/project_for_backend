@@ -15,7 +15,8 @@ html
             input#my-id(type='hidden' value=user.id)
             a#logout.btn(href='/auth/logout') 로그아웃
             a#sell.btn(href='/sell') 판매하기
-            a#buy.btn(href='/selled_item') 구매하기
+            if url != 'http://localhost:8001/selled_item'
+                a#buy.btn(href='/selled_item') 구매하기
           else
             form#login-form(action='/auth/login' method='post')
               .input-group
