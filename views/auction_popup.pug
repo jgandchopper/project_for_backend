@@ -1,9 +1,16 @@
 extends selled_item
 
 block content
+    
     script.
-        function nwindow(){ 
-            var myWindow = window.open("test.html", "MsgWindow", "width=200,height=100");
+            
+        function nwindow(){
+            
+            const name = Math.random();
+            
+            const str_name = name.toString();
+            alert("check");
+            var myWindow = window.open("test.html", str_name, "width=200,height=100");
             myWindow.document.write("<p>This is 'MsgWindow'. I am 200px wide and 100px tall!</p>"); 
         }
         nwindow();

@@ -4,6 +4,8 @@ const router = express.Router();
 const {Item} = require('../models');
 const mysql = require('mysql');
 var count = 0;
+const Window = require('window');
+const window = new Window();
 
 router.get('/join',isNotLoggedIn,(req,res)=>{
     res.render('join',{
@@ -28,10 +30,9 @@ router.get('/sell',isLoggedIn,(req,res)=>{
         sellError:req.flash('sellError')
     })
 })
-router.get('/selled_item',isLoggedIn,async(req, res)=>{
-    const dataValues_list = [];
+router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을 눌렀을 때 호출
+    const dataValues_list = [];//get db values 
     const cur_url = req.protocol + '://' + req.get('host') + req.originalUrl;
-    console.log(cur_url);
     Item.findAll().then(function(result){
         for(var data_index in result){
             dataValues_list.push(result[data_index].dataValues);
@@ -44,12 +45,11 @@ router.get('/selled_item',isLoggedIn,async(req, res)=>{
     });
     });
 });
-router.get('/selled_item/*', isLoggedIn, (req, res)=>{
+router.get('/selled_item/*', isLoggedIn, (req, res)=>{//품목을 선택했을 때 호출
     
     res.render('auction_popup',{
         user:req.user,    
     });
-    console.log(count);
     });
 
 console.log(1);
