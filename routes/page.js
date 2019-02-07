@@ -16,7 +16,7 @@ router.get('/join',isNotLoggedIn,(req,res)=>{
 });
 
 router.get('/',(req,res,next)=>{
-    res.render('main',{
+    res.render('selled_item',{
         title:'auction',
         twits:[],
         user:req.user,
