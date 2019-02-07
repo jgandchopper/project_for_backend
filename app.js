@@ -11,6 +11,7 @@ const authRouter = require('./routes/auth');
 const {sequelize} = require('./models');
 const passportConfig = require('./passport');
 const app =express();
+//sequelize.sync({force:true});
 sequelize.sync();
 require('date-utils');
 passportConfig(passport);
