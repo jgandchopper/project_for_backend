@@ -62,8 +62,9 @@ router.get('/logout',isNotLoggedIn,(req,res)=>{
 })
 
 router.post('/sell',isLoggedIn,async(req,res,next)=>{
-    const {product_name,seller_id,cost,ended_time} = req.body;
+    const {product_name,cost,ended_time} = req.body;
     console.log(ended_time);
+    seller_id = req.user.dataValues.email
     try{
         const exItem = await Item.find({where:{product_name}})
         if(exItem){
@@ -83,5 +84,13 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
         return next(error);
     }
 })
+
+
+
+
+
+
+
+
 module.exports = router;
     
