@@ -1,9 +1,11 @@
 const express = require('express');
 const{isLoggedIn,isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
-const {User,Item} = require('../models')
-const mysql = require('mysql')
-
+const {Item} = require('../models');
+const mysql = require('mysql');
+var count = 0;
+const Window = require('window');
+const window = new Window();
 
 router.get('/join',isNotLoggedIn,(req,res)=>{
     res.render('join',{
@@ -21,30 +23,34 @@ router.get('/',(req,res,next)=>{
         loginError:req.flash('loginError')
     });
 });
-router.get('/sell',(req,res)=>{
+router.get('/sell',isLoggedIn,(req,res)=>{
     res.render('sell',{
         title:'autction 판매창',
         user:req.user,
         sellError:req.flash('sellError')
     })
 })
-router.get('/selled_item',isLoggedIn, (req, res)=>{
-    //async <<<<<<<< (auth check)
-    const dataValues_list = [];
-    //console.log('유저 목록',User.findAll());
-    //console.log('아이템 목록',Item.findAll());
+router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을 눌렀을 때 호출
+    const dataValues_list = [];//get db values 
+    const cur_url = req.protocol + '://' + req.get('host') + req.originalUrl;
     Item.findAll().then(function(result){
         for(var data_index in result){
             dataValues_list.push(result[data_index].dataValues);
         }
-    
         res.render('selled_item',{
-            data:dataValues_list,
-            data_length:dataValues_list.length,
-            user:req.user
-        });
+        url:cur_url,
+        user:req.user,
+        data:dataValues_list,
+        data_length:dataValues_list.length    
     });
-    
-    
+    });
 });
+router.get('/selled_item/*', isLoggedIn, (req, res)=>{//품목을 선택했을 때 호출
+    
+    res.render('auction_popup',{
+        user:req.user,    
+    });
+    });
+
+console.log(1);
 module.exports = router;
