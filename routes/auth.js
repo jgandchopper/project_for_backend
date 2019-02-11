@@ -65,6 +65,7 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
     const {product_name,cost,ended_time} = req.body;
     console.log(ended_time);
     seller_id = req.user.dataValues.email
+    userId = null;
     try{
         const exItem = await Item.find({where:{product_name}})
         if(exItem){
@@ -75,6 +76,7 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
             product_name,
             seller_id,
             cost,
+            userId,
             ended_time
         });
         return res.redirect('/selled_item');

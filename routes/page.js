@@ -4,8 +4,7 @@ const router = express.Router();
 const {Item} = require('../models');
 const mysql = require('mysql');
 var count = 0;
-const Window = require('window');
-const window = new Window();
+
 
 router.get('/join',isNotLoggedIn,(req,res)=>{
     res.render('join',{
@@ -16,7 +15,7 @@ router.get('/join',isNotLoggedIn,(req,res)=>{
 });
 
 router.get('/',(req,res,next)=>{
-    res.render('main',{
+    res.render('selled_item',{
         title:'auction',
         twits:[],
         user:req.user,
@@ -45,12 +44,17 @@ router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을
     });
     });
 });
-router.get('/selled_item/*', isLoggedIn, (req, res)=>{//품목을 선택했을 때 호출
-    
+router.get('/selled_item/*', isLoggedIn, (req, res)=>{//품목을 선택했을 때 팝업 호출
     res.render('auction_popup',{
         user:req.user,    
     });
+});
+
+router.get('/get_price',isLoggedIn, (req, res)=>{
+    res.render('get_price', {
+        user:req.user
     });
+});
 
 console.log(1);
 module.exports = router;
