@@ -1,0 +1,15 @@
+form#get_price(action='/auth/sell_proccess' method='post')
+    h2(style="color:red")= product_name   
+    .input
+        input(type="hidden", name="product_name", value= product_name)
+    .input
+        label(for='bid_price') 가격
+        input#bid_price(type='text' name='bid_price')
+    if sellError
+        .error-message= sellError
+    button(type='submit', id="sell-btn") 가격등록
+script.
+    /*document.getElementById("sell-btn").addEventListener("click", function(){
+        window.close();
+    });*/
+    

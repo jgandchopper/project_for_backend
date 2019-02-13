@@ -44,17 +44,28 @@ router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을
     });
     });
 });
-router.get('/selled_item/*', isLoggedIn, (req, res)=>{//품목을 선택했을 때 팝업 호출
+var product_name;
+router.get('/selled_item/*', isLoggedIn, function test(req, res){//품목을 선택했을 때 팝업 호출
+    const url_length = req.originalUrl.length;
+    product_name = req.originalUrl.slice(13, url_length);
     res.render('auction_popup',{
-        user:req.user,    
+        user:req.user,
+        product_name:product_name,
     });
 });
 
 router.get('/get_price',isLoggedIn, (req, res)=>{
-    res.render('get_price', {
-        user:req.user
+    res.render('bid_price', {
+        user:req.user,
+        product_name:product_name,
     });
 });
+
+
+
+
+
+
 
 console.log(1);
 module.exports = router;
