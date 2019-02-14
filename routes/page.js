@@ -1,7 +1,7 @@
 const express = require('express');
 const{isLoggedIn,isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
-const {Item} = require('../models');
+const {Item, Bid} = require('../models');
 const mysql = require('mysql');
 var count = 0;
 
@@ -30,31 +30,51 @@ router.get('/sell',isLoggedIn,(req,res)=>{
     })
 })
 router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을 눌렀을 때 호출
-    const dataValues_list = [];//get db values 
+    const dataValues_list = [];//get item_db values
+    const bidValues_list = []; //get bid_db values
     const cur_url = req.protocol + '://' + req.get('host') + req.originalUrl;
     Item.findAll().then(function(result){
-        for(var data_index in result){
-            dataValues_list.push(result[data_index].dataValues);
-        }
-        res.render('selled_item',{
-        url:cur_url,
-        user:req.user,
-        data:dataValues_list,
-        data_length:dataValues_list.length    
-    });
+        Bid.findAll().then(function(bid_result){
+            for(var data_index in result) {//판매중인 아이템 정보
+                dataValues_list.push(result[data_index].dataValues);
+            }
+            for(var bid_index in bid_result){//입찰 할 금액
+                bidValues_list.push(bid_result[bid_index].dataValues);
+            }
+            res.render('selled_item',{
+                url:cur_url,
+                user:req.user,
+                bid_data:bidValues_list,
+                data:dataValues_list,
+                data_length:dataValues_list.length
+            });
+        });
+
     });
 });
-router.get('/selled_item/*', isLoggedIn, (req, res)=>{//품목을 선택했을 때 팝업 호출
+var product_name;
+router.get('/selled_item/*', isLoggedIn, function test(req, res){//품목을 선택했을 때 팝업 호출
+    const url_length = req.originalUrl.length;
+    product_name = req.originalUrl.slice(13, url_length);
     res.render('auction_popup',{
-        user:req.user,    
+        user:req.user,
+        product_name:product_name,
     });
 });
 
 router.get('/get_price',isLoggedIn, (req, res)=>{
-    res.render('get_price', {
-        user:req.user
+    res.render('bid_price', {
+        user:req.user,
+        product_name:product_name,
     });
 });
+
+
+
+
+
+
+
 
 console.log(1);
 module.exports = router;

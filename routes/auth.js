@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const {isLoggedIn,isNotLoggedIn} = require('./middlewares');
-const {User, Item} = require('../models');
+const {User, Item, Bid} = require('../models');
 const router = express.Router();
 
 const moment = require('moment');
@@ -24,7 +24,6 @@ router.post('/join',isNotLoggedIn,async(req,res,next)=>{
             nick,
             password:hash,
         });
-        console.log('22');
         return res.redirect('/');
     } catch(error){
         console.error(error);
@@ -60,10 +59,8 @@ router.get('/logout',isLoggedIn,(req,res)=>{
 router.get('/logout',isNotLoggedIn,(req,res)=>{
     res.redirect('/');
 })
-
 router.post('/sell',isLoggedIn,async(req,res,next)=>{
-    const {product_name,cost,ended_time} = req.body;
-    console.log(ended_time);
+    const {product_name,cost,ended_time} = req.body
     seller_id = req.user.dataValues.email
     userId = null;
     try{
@@ -85,14 +82,25 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
         console.error(error);
         return next(error);
     }
+});
+router.post('/sell_proccess', isLoggedIn, async(req, res)=>{
+    
+    const {product_name, bid_price} = req.body;
+    console.log("*****************************\n"+product_name,bid_price+"\n");
+    
+    try{
+        const Bbid_price = await Bid.create({
+            product_name,
+            price:bid_price,
+        });
+        res.render('close_window',{
+            user:req.user
+        })
+    }
+    catch(error){
+        console.error(error);
+    }
+
 })
-
-
-
-
-
-
-
-
 module.exports = router;
     
