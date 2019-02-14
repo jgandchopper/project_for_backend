@@ -69,12 +69,5 @@ router.get('/get_price',isLoggedIn, (req, res)=>{
     });
 });
 
-
-
-
-
-
-
-
 console.log(1);
 module.exports = router;
