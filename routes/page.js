@@ -52,7 +52,8 @@ router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을
                     }
                 }
             }
-            console.log(dataValues_list.length);
+
+            console.log(dataValues_list);
             res.render('selled_item',{
                 url:cur_url,
                 user:req.user,
@@ -76,7 +77,7 @@ router.get('/selled_item/*', isLoggedIn, function test(req, res){//품목을 선
 
 router.get('/get_price',isLoggedIn, (req, res)=>{
     res.render('bid_price', {
-        user:req.user,
+        product_price:product_dic[product_name],
         product_name:product_name,
     });
 });

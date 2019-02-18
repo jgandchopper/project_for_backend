@@ -8,20 +8,19 @@ block content
                 th(scope='cols') 상품명
                 th(scope='cols') 판매자
                 th(scope='cols') 시작가격
-                th(scope='cols') 현 입찰가
+                th(scope='cols') 현재 입찰가
                 th(scope='cols') 마감시간
         tbody(class="row2")
             -for(i=0;i<data_length;i++)
-                -var link = `\'http://localhost:8002/selled_item/${data[i].product_name}\'`;
+                -var link = `\'http://localhost:8001/selled_item/${data[i].product_name}\'`;
                 tr(onClick = " location.href="+link  onmouseover="this.style.backgroundColor = 'yellow';" onmouseout="this.style.backgroundColor='white'")
                     th(scope='row')= data[i].product_name
                     td= data[i].seller_id
-                    td= data[i].cost
-                    td= data[i].buyer_id
+                    td= data[i].first_cost
+                    td= bid_data[data[i].product_name]
                     td= data[i].ended_time
 
 
 
 
 
-            
