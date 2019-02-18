@@ -10,9 +10,9 @@ module.exports = (sequelize,DataTypes)=>{
             allowNull:false,
             unique:false
         },
-        cost:{
+        first_cost:{
             type:DataTypes.INTEGER,
-            allowNull:true,  
+            allowNull:true,
             unique:false
         },
         buyer_id:{

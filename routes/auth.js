@@ -17,7 +17,6 @@ router.post('/join',isNotLoggedIn,async(req,res,next)=>{
             req.flash('joinError','이미 가입된 이메일입니다.');
             return res.redirect('/join');
         }
-        console.log('11');
         const hash = await bcrypt.hash(password,12);
         await User.create({
             email,
@@ -60,8 +59,8 @@ router.get('/logout',isNotLoggedIn,(req,res)=>{
     res.redirect('/');
 })
 router.post('/sell',isLoggedIn,async(req,res,next)=>{
-    const {product_name,cost,ended_time} = req.body
-    seller_id = req.user.dataValues.email
+    const {product_name,first_cost,ended_time} = req.body;
+    seller_id = req.user.dataValues.email;
     userId = null;
     try{
         const exItem = await Item.find({where:{product_name}})
@@ -72,7 +71,7 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
         await Item.create({
             product_name,
             seller_id,
-            cost,
+            first_cost,
             userId,
             ended_time
         });
@@ -84,20 +83,32 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
     }
 });
 router.post('/sell_proccess', isLoggedIn, async(req, res)=>{
-    
-    const {product_name, bid_price} = req.body;
-    console.log("*****************************\n"+product_name,bid_price+"\n");
-    
-    try{
-        const Bbid_price = await Bid.create({
-            product_name,
-            price:bid_price,
-        });
-        return res.redirect('/');
+    const {highst_price, product_name, bid_price} = req.body;
+
+    try {
+
+        if (Number(highst_price) < Number(bid_price)) {
+            const Bid_price = await Bid.create({
+                product_name,
+                price: bid_price,
+            });
+            res.render('close_window', {
+                user: req.user,
+                s_val:1
+            });
+        }
+        else{
+            res.render('close_window', {
+                user: req.user,
+                s_val:0
+            });
+        }
+
     }
     catch(error){
         console.error(error);
     }
-})
+
+});
 module.exports = router;
     

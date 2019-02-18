@@ -1,5 +1,13 @@
 extends auction_popup
 
 block content
+    if(s_val === 1)
+        script.
+            window.close();
+    else
+        script.
+            alert("현재 최고값 보다 작음");
+            location.href="/get_price";
+
     script.
         window.close();

@@ -1,5 +1,7 @@
 form#get_price(action='/auth/sell_proccess' method='post')
-    h2(style="color:red")= product_name   
+    h2(style="color:red")= product_name
+    .input
+        input(type="hidden", name= "highst_price", value= product_price)
     .input
         input(type="hidden", name="product_name", value= product_name)
     .input
