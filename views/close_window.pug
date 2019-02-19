@@ -4,10 +4,13 @@ block content
     if(s_val === 1)
         script.
             window.close();
-    else
+    else if(s_val === 0)
         script.
             alert("현재 최고값 보다 작음");
             location.href="/get_price";
+    else if(s_val === 2)
+        script.
+            alert("시작가격보다 작음");
+            location.href = "/get_price";
 
-    script.
-        window.close();
+

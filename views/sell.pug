@@ -11,7 +11,7 @@ block content
                 input#sell-cost(type='text' name='first_cost')
             .input-group
                 label(for='sell-ended_time') 종료시간
-                input#sell-name(type='text' name='ended_time')
+                input#sell-name(type='date' name='ended_time')
             if sellError
                 .error-message= sellError
             button#sell-btn.btn(type='submit') 물품등록

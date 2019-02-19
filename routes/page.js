@@ -28,7 +28,6 @@ router.get('/sell',isLoggedIn,(req,res)=>{
     })
 });
 router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을 눌렀을 때 호출
-
     const dataValues_list = [];//get item_db values
     const bidValues_list = []; //get bid_db values
     const cur_url = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -52,8 +51,7 @@ router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을
                     }
                 }
             }
-
-            console.log(dataValues_list);
+;
             res.render('selled_item',{
                 url:cur_url,
                 user:req.user,

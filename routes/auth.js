@@ -62,8 +62,10 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
     const {product_name,first_cost,ended_time} = req.body;
     seller_id = req.user.dataValues.email;
     userId = null;
+
+
     try{
-        const exItem = await Item.find({where:{product_name}})
+        const exItem = await Item.find({where:{product_name}});
         if(exItem){
             req.flash('이미 등록된 상품입니다');
             return res.redirect('/sell');
@@ -77,25 +79,34 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
         });
         return res.redirect('/selled_item');
     }
-    catch(error){   
+    catch(error) {
         console.error(error);
         return next(error);
     }
 });
 router.post('/sell_proccess', isLoggedIn, async(req, res)=>{
     const {highst_price, product_name, bid_price} = req.body;
-
+    const first_Cost = await Item.find({where:{product_name}});
+    const first_cost = first_Cost.dataValues.first_cost;
+    console.log(first_cost);
     try {
-
         if (Number(highst_price) < Number(bid_price)) {
-            const Bid_price = await Bid.create({
-                product_name,
-                price: bid_price,
-            });
-            res.render('close_window', {
-                user: req.user,
-                s_val:1
-            });
+            if(Number(first_cost) < Number(bid_price)){
+                const Bid_price = await Bid.create({
+                    product_name,
+                    price: bid_price,
+                });
+                res.render('close_window', {
+                    user: req.user,
+                    s_val:1
+                });
+            }
+            else{
+                res.render('close_window', {
+                    user: req.user,
+                    s_val:2
+                });
+            }
         }
         else{
             res.render('close_window', {

@@ -1,5 +1,5 @@
 module.exports = (sequelize,DataTypes)=>{
-    return sequelize.define('item_test',{
+    return sequelize.define('item_s',{
         product_name:{
             type:DataTypes.STRING(20),
             allowNull:false,
@@ -21,7 +21,7 @@ module.exports = (sequelize,DataTypes)=>{
             unique:false
         },
         ended_time:{
-            type:DataTypes.INTEGER,
+            type:DataTypes.DATE,
             allowNull:false,
             unique:false
         }
