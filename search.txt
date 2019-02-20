@@ -1,1 +1,1 @@
-npm install bcrypt mysql2 sequelize sequelize-cli morgan express-session express dotenv cookie-parser passport-local connect-flash nodemon
+npm install bcrypt mysql2 sequelize sequelize-cli morgan express-session express dotenv cookie-parser passport-local connect-flash nodemon date-utils
