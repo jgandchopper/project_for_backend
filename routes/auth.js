@@ -63,7 +63,6 @@ router.post('/sell',isLoggedIn,async(req,res,next)=>{
     seller_id = req.user.dataValues.email;
     userId = null;
 
-
     try{
         const exItem = await Item.find({where:{product_name}});
         if(exItem){
@@ -90,26 +89,26 @@ router.post('/sell_proccess', isLoggedIn, async(req, res)=>{
     const first_cost = first_Cost.dataValues.first_cost;
     console.log(first_cost);
     try {
-        if (Number(highst_price) < Number(bid_price)) {
-            if(Number(first_cost) < Number(bid_price)){
+        if (Number(highst_price) < Number(bid_price)) {//입력된 입찰가와 현재 입찰가 비교
+            if(Number(first_cost) < Number(bid_price)){//입력된 입찰가와 시작가격 비교
                 const Bid_price = await Bid.create({
                     product_name,
                     price: bid_price,
                 });
-                res.render('close_window', {
+                res.render('close_window', {//s_val 이 1이면 새창을 닫기만함
                     user: req.user,
                     s_val:1
                 });
             }
             else{
-                res.render('close_window', {
+                res.render('close_window', {//s_val 이 2이면 시작가격보다 작다고 경고창 표시 후 다시 리디렉션
                     user: req.user,
                     s_val:2
                 });
             }
         }
         else{
-            res.render('close_window', {
+            res.render('close_window', {//s_val 이 3이면 입찰가보다 작다고 경고창 표시 후 다시 리디렉션
                 user: req.user,
                 s_val:0
             });

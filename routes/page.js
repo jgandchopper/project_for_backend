@@ -3,6 +3,8 @@ const{isLoggedIn,isNotLoggedIn} = require('./middlewares');
 const router = express.Router();
 const {Item, Bid} = require('../models');
 const product_dic = {};//최고가 계산을 위함
+require('date-utils');
+
 
 router.get('/join',isNotLoggedIn,(req,res)=>{
     res.render('join',{
@@ -28,9 +30,29 @@ router.get('/sell',isLoggedIn,(req,res)=>{
     })
 });
 router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을 눌렀을 때 호출
+
     const dataValues_list = [];//get item_db values
     const bidValues_list = []; //get bid_db values
     const cur_url = req.protocol + '://' + req.get('host') + req.originalUrl;
+
+    const date = Date.today();
+    const date1 = JSON.stringify(date);
+
+    console.log(date1.slice(1,11));
+    Item.findOne({where:{ended_time:date1.slice(1,11)}}).then(function(result) {
+        if(result != null){//종료기간이 다된 상품이 있으면 해당 데이터 삭제
+            console.log("***************************\n"+"good");
+            Item.destroy({where:{ended_time:date1.slice(1,11)}});
+            Bid.destroy({where:{product_name:result.dataValues.product_name}});
+
+        }
+        else{
+            console.log("************************\n"+"종료기간 다된 상품 없음");
+        }
+    });
+
+
+
 
     Item.findAll().then(function(result){
         Bid.findAll().then(function(bid_result){
@@ -51,7 +73,6 @@ router.get('/selled_item',isLoggedIn,async(req, res)=>{ //구매하기 버튼을
                     }
                 }
             }
-;
             res.render('selled_item',{
                 url:cur_url,
                 user:req.user,
